@@ -701,11 +701,11 @@ class LLParser {
                 //真条件
                 generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "if", arg1,"goto", (quadruplesID + 2).toString()))
                 //假条件
-                generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", "_","_","0"))
+                generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", null,null,"0"))
                 ifFalseChain.push(quadruplesID)
             }
             Node.ACTION_IF_TRUE_DONE -> {
-                generatedQuadruplesList.add(Quadruples(newQuadruplesID(),"goto","_","_","0"))
+                generatedQuadruplesList.add(Quadruples(newQuadruplesID(),"goto",null,null,"0"))
                 ifTrueFinishedChain.push(quadruplesID)
             }
             Node.ACTION_BEGIN_ELSE ->{
@@ -733,14 +733,14 @@ class LLParser {
                 generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "if", arg1,"goto","0"))
                 forTrueChain.push(quadruplesID) //需要回填 真条件所转移到的位置
                 //假条件
-                generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", "_","_","0"))
+                generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", null,null,"0"))
                 forFalseChain.push(quadruplesID) //需要回填 假条件所转移到的位置
                 forConditionChain.push(quadruplesID + 1) // quadruplesID + 1 为递增语句的开始
             }
             Node.ACTION_FOR_INCREMENT -> { //递增
                 if (forInitFinished.isNotEmpty()){ //转移到条件语句 进行判断
                     val id  = forInitFinished.pop()
-                    generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", "_","_","${id}"))
+                    generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", null,null,"${id}"))
                 }
                 //回填真链
                 if (forTrueChain.isNotEmpty()){
@@ -751,7 +751,7 @@ class LLParser {
             Node.ACTION_FOR_DONE -> {  // 转移到递增条件
                 if (forConditionChain.isNotEmpty()){ //转移到递增语句
                     val id  = forConditionChain.pop()
-                    generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", "_","_","${id}"))
+                    generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", null,null,"${id}"))
                 }
                 //回填假链
                 if (forFalseChain.isNotEmpty()){
@@ -767,13 +767,13 @@ class LLParser {
                 //真条件
                 generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "if", arg1,"goto", (quadruplesID + 2).toString()))
                 //假条件
-                generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", "_","_","0"))
+                generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", null,null,"0"))
                 whileFalseConditionChain.push(quadruplesID)
             }
             Node.ACTION_WHILE_DONE -> {
                 if (whileConditionChain.isNotEmpty()){
                     val jump  = whileConditionChain.pop()
-                    generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", "_","_","${jump}"))
+                    generatedQuadruplesList.add(Quadruples(newQuadruplesID(), "goto", null,null,"${jump}"))
                 }
                 //回填假条件
                 if (whileFalseConditionChain.isNotEmpty()){
