@@ -29,6 +29,9 @@ class LLParser {
     fun parse(inputTokens: List<Token>, printAnalysisInfo: Boolean = false, printGeneratedQuadruples: Boolean = false) {
         tokens.clear()
         tokens.addAll(inputTokens)
+        generatedQuadruplesList.clear()
+        tempID = 0
+        quadruplesID  = 0
         analysisStack.apply {
             add(Node.End)
             add(Node.P) //程序开始符号
@@ -571,6 +574,8 @@ class LLParser {
 
     private var currentOp: String? = null //当前的Op操作符
     private val generatedQuadruplesList = mutableListOf<Quadruples>() //生成的四元式
+     val quadruplesList  get() =  generatedQuadruplesList.toList()
+
 
     //执行语义动作 生成四元式
     private fun parseAction(action: Node.Action) {

@@ -138,4 +138,16 @@ sealed class TokenType {
     object Delimiter : TokenType()
     object Identifier : TokenType()
     object Comment : TokenType()
+
+    override fun toString(): String {
+        return when (this) {
+            Identifier -> "Identifier"
+            KeyWord -> "KeyWord"
+            IntConstant -> "IntConstant"
+            StringConstant -> "StringConstant"
+            Delimiter -> "Delimiter"
+            Operator -> "Operator"
+            Comment -> "Comment"
+        }
+    }
 }

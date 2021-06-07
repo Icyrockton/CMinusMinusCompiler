@@ -687,6 +687,87 @@ class LLParserTest {
             }
     """.trimIndent())
 
+    @Test
+    fun ir_1 () = testIR("""
+        int main(){
+                int a = 10 ;
+                int b = 20;
+                if ( (( a > 10 ) && ( b < 10 )) ) {
+                    a = 5;
+                 
+                }
+                else 
+                    a=5;
+                return 0;
+             }
+    """.trimIndent())
+
+    @Test
+    fun ir_2 () = testIR("""
+        int main(){
+                int a = 10 ;
+                int d = 20 , e = 100;
+                while ( (d < 100) && ((e <= 100) || (a >= 10)) ){
+                    d = d + 1;
+                    if ( e >= 100){
+                        e = e - 10;
+                        while ( a >= 10 ){
+                            
+                        }
+                    }
+                    else if ( e >= 70 ){ 
+                        e = e - 1;
+                    }
+                    else 
+                        e = e - 0;
+                }
+                for ( d = 20 ; (d <= 100 ) && (a <= 100) ; d = d+10 ){
+                    d = d+1;
+                }
+                d = 0;
+                a = 200;
+                return 0;
+             }
+    """.trimIndent())
+
+    @Test
+    fun ir_3 () = testIR("""
+        int main(){
+                int a = 10 ;
+                int d = 20 , e = 100 , f = 100;
+                
+                for ( d = 20 ; (d <= 100 ) && (a <= 100) ; d = d+10 ){
+                    d = d+1;
+                }
+                while ( e >= 100 ){
+                    if ( e >= 150){
+                        d = d-1;
+                    }
+                    else if ( ((e >= 200) || (f != 100)) ){
+                        d = d+1;
+                    }
+                }
+                d = 0;
+                a = 200;
+                return 0;
+             }
+    """.trimIndent())
+
+    @Test
+    fun ir_4 () = testIR("""
+        int main(){
+                int a = 10 , fff=0 ;
+                int d = 20 , e = 100 , f = 100;
+                
+                while ( a <= 100){
+                    d = a + b;
+                    b = a ;
+                    a = 10 ;
+                }
+                return 0;
+             }
+    """.trimIndent())
+
     //测试算数表达式生成的四元式
     private fun testLogicalExpressionIR(intput: String) {
         parse(

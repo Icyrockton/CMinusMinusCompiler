@@ -1,0 +1,81 @@
+C--产生式规则
+2021年06月07日  08点43分
+
+//P程序
+P ->  FP|ε
+
+TYPE -> int | string | bool
+
+//F函数 
+F -> TYPE id () { D_ALL S_ALL } 
+
+
+/* var_decl : id [ = expr ] */
+V -> id V_ASSIGN    
+V_ASSIGN -> = E_ALGO @ActionAssign |ε
+ 
+/* {type var_decl {',' var_decl} ';' } */
+D_ALL -> D D_ALL | ε
+D -> TYPE V D_SAME ; 
+D_SAME -> , V D_SAME | ε
+
+E_LOGICAL 	   -> E_LOGICAL_T E_LOGICAL_SEMI @ActionAnd 
+E_LOGICAL_SEMI -> && E_LOGICAL @ActionAndOp
+
+E_LOGICAL_T      -> E_LOGICAL_F E_LOGICAL_T_SEMI @ActionOr
+E_LOGICAL_T_SEMI -> || E_LOGICAL_T @ActionOrOp
+
+E_LOGICAL_F		 -> E_ALGO logical_op E_ALGO @ActionLogical
+				 -> ( E_LOGICAL )  @ActionLogicalWithBracket
+				 -> ! E_LOGICAL    @ActionLogicalNot
+ 
+			
+E_ALGO      -> E_ALGO_T E_ALGO_SEMI @ActionAddOrSub
+E_ALGO_OP -> E_ALGO|ε
+E_ALGO_SEMI -> +  E_ALGO @ActionAddOp
+			 | -  E_ALGO @ActionSubOp
+			 | ε
+			 
+E_ALGO_T 		-> E_ALGO_F E_ALGO_T_SEMI @ActionMulOrDiv 
+E_ALGO_T_SEMI   -> *  E_ALGO_T @ActionMulOp
+			     | /  E_ALGO_T @ActionDivOp
+			     | ε
+
+E_ALGO_F 		-> (E_ALGO) | int | id 
+
+
+logical_op ->  == | != | <= | >= | < | >
+
+
+/* assg : id = expr ';' */
+ASSG -> id = E_ALGO @ActionAssign
+ASSG_OP -> ASSG | ε
+
+/* {stmt} */
+S_ALL -> S S_ALL | ε
+/* stmt */
+S -> S_IF | S_WHILE | S_FOR | S_RETURN | S_ASSG | S_BLOCK | S_END
+
+/* if '(' expr ')' stmt [else stmt] */
+S_IF -> if ( E_LOGICAL_F ) @ACTION_BEGIN_IF_TRUE S @ACTION_IF_TRUE_DONE S_ELSE 
+S_ELSE -> else @ACTION_BEGIN_ELSE S @ACTION_ELSE_DONE | ε @ACTION_ELSE_DONE
+
+/* while '(' expr ')' stmt */
+S_WHILE -> while ( @ACTION_WHILE_BEGIN E_LOGICAL @ACTION_FOR_TERMINATE ) S @ACTION_FOR_DONE 
+
+/* for '(' ASSG_OP ';' E_OP ';' ASSG_OP ')' stmt */
+S_FOR -> for ( ASSG_OP @ACTION_FOR_INIT ; E_LOGICAL_OP @ACTION_FOR_TERMINATE ; ASSG_OP @ACTION_FOR_INCREMENT )  S @ACTION_FOR_DONE   
+
+/* return [expr] ';' */
+S_RETURN -> return E_ALGO_OP ;
+
+/* assg ';' */
+S_ASSG -> ASSG ;
+
+/* '{' {stmt} '}' */
+S_BLOCK -> { S_ALL } 
+
+/* ';' */
+S_END -> ;
+
+

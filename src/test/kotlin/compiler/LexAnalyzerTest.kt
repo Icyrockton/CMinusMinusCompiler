@@ -193,9 +193,9 @@ class LexAnalyzerTest {
             """
             int main(){
                 int a = 10 ;
-                int b = -20;
-                if ( ( a > 10 ) && ( b < 10 ) ) {
-                    a = -5;
+                int b = 20;
+                if ( (( a > 10 ) && ( b < 10 )) ) {
+                    a = 5;
                  
                 }
                 else 
