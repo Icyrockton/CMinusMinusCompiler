@@ -1,6 +1,6 @@
 # C--编译器
 
-------
+
 
 ## 运行图
 
@@ -54,7 +54,9 @@ https://github.com/xiangxianzhang/Compiler
 
 ## 产生式
 
-**以@开头的为语义结点，生成对应的四元式**
+ **以@开头的为语义结点，生成对应的四元式**
+
+ **若要查看注释,参考C-- grammar productions.txt文件**
 
 - P ->  FP|ε 
 - TYPE -> int | string | bool
