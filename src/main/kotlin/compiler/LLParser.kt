@@ -616,7 +616,6 @@ class LLParser {
                     val arg1 = semanticStack.pop()
                     generatedQuadruplesList.add(Quadruples(newQuadruplesID(), currentOp!!, arg1, arg2, temp))
                     Node.E_ALGO_T.value = temp
-                    println("????? #ActionMulOrDiv ${temp}")
                     semanticStack.push(temp)
                     clearOp()
                 }
@@ -783,7 +782,7 @@ class LLParser {
             }
         }
     }
-    private val  ifTrueFinishedChain = Stack<Int>()
+    private val ifTrueFinishedChain = Stack<Int>()
     private val ifFalseChain = Stack<Int>()
     private val forInitFinished = Stack<Int>()
     private val forTrueChain = Stack<Int>()
@@ -825,9 +824,7 @@ class LLParser {
         } else {
             throw UnexpectedMissException("终结符${terminal.value}", -1)
         }
-
     }
-
 }
 
 
